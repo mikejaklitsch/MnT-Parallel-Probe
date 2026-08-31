@@ -1,0 +1,11 @@
+﻿{
+  "name" : "MnT Parallel Probe",
+  "id" : "mnt_parallel_probe",
+  "version" : "0.1.0",
+  "game_id" : "eu5",
+  "supported_game_version" : "1.3.*",
+  "short_description" : "Throwaway rig: serial vs distributed pow-burn to measure script parallelism.",
+  "tags" : [],
+  "relationships" : [],
+  "game_custom_data" : {}
+}

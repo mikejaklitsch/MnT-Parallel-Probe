@@ -1,0 +1,13 @@
+﻿namespace = prb_test
+
+prb_test.1 = { # called via monthly_country_pulse event block
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		has_global_variable = prb_test_phase
+		global_var:prb_test_phase = 1
+	}
+
+	immediate = { prb_do_work = yes }
+}

@@ -1,0 +1,60 @@
+﻿on_game_start = {
+	on_actions = { prb_on_game_start }
+}
+
+prb_on_game_start = {
+	effect = {
+		set_global_variable = { name = prb_test_phase value = 0 }
+		set_global_variable = { name = prb_test_sub value = 0 }
+	}
+}
+
+
+weather_monthly_pulse = {
+	on_actions = { prb_test_weather_pulse }
+}
+
+prb_test_weather_pulse = {
+	effect = {
+		# Do nothing, just log for the timestamps
+		if = {
+			limit = { global_var:prb_test_phase = 0 }
+			set_local_variable = { name = prb_test_phase_log value = global_var:prb_test_phase }
+			set_local_variable = { name = prb_test_month_log value = prb_test_month_index }
+			debug_log = "PRB_TEST QUIET phase=[SCOPE.GetLocalVariable('prb_test_phase_log').GetValue|0] month=[SCOPE.GetLocalVariable('prb_test_month_log').GetValue|0]"
+		}
+
+		if = { # parallel run ran in country pulse, just log timestamp
+			limit = { global_var:prb_test_phase = 1 }
+			set_local_variable = { name = prb_test_phase_log value = global_var:prb_test_phase }
+			set_local_variable = { name = prb_test_month_log value = prb_test_month_index }
+			debug_log = "PRB_TEST PARALLEL phase=[SCOPE.GetLocalVariable('prb_test_phase_log').GetValue|0] month=[SCOPE.GetLocalVariable('prb_test_month_log').GetValue|0]"
+		}
+
+		if = {
+			limit = { global_var:prb_test_phase = 2 }
+			prb_test_run_serial = yes
+		}
+
+		# Advance at month end: three months per phase, then move to the next phase
+		change_global_variable = { name = prb_test_sub add = 1 }
+		if = {
+			limit = { global_var:prb_test_sub >= 3 }
+			set_global_variable = { name = prb_test_sub value = 0 }
+			change_global_variable = { name = prb_test_phase add = 1 }
+			if = {
+				limit = { global_var:prb_test_phase >= 3 }
+				set_global_variable = { name = prb_test_phase value = 0 }
+			}
+		}
+	}
+}
+
+
+monthly_country_pulse = {
+	on_actions = { prb_test_country_pulse }
+}
+
+prb_test_country_pulse = {
+	events = { prb_test.1 }
+}

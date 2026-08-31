@@ -1,0 +1,26 @@
+﻿
+prb_test_heavy_value = {
+	value = var:prb_test_sink
+	add = 1
+	pow = 2
+	modulo = 30000
+	pow = 2
+	modulo = 30000
+	pow = 2
+	modulo = 30000
+	pow = 2
+	modulo = 30000
+	pow = 2
+	modulo = 30000
+	pow = 2
+	modulo = 30000
+	add = 1
+}
+
+prb_test_month_index = {
+	value = current_year
+	subtract = 1337
+	multiply = 12
+	add = current_month
+	subtract = 4
+}

@@ -1,0 +1,26 @@
+﻿@prb_do_work_iterations = 5000
+
+prb_do_work = {
+	set_variable = { name = prb_test_sink value = 1 }
+	while = {
+		count = @prb_do_work_iterations
+		set_variable = { name = prb_test_sink value = prb_test_heavy_value }
+	}
+}
+
+prb_test_run_serial = {
+	set_local_variable = { name = prb_test_num value = { every_country = { add = 1 } } }
+	set_local_variable = { name = prb_test_phase_log value = global_var:prb_test_phase }
+	set_local_variable = { name = prb_test_month_log value = prb_test_month_index }
+
+	debug_log = "PRB_TEST SERIAL_START phase=[SCOPE.GetLocalVariable('prb_test_phase_log').GetValue|0] month=[SCOPE.GetLocalVariable('prb_test_month_log').GetValue|0] countries=[SCOPE.GetLocalVariable('prb_test_num').GetValue|0]"
+
+	random_country = {
+		while = {
+			count = { value = local_var:prb_test_num }
+			prb_do_work = yes
+		}
+	}
+	
+	debug_log = "PRB_TEST SERIAL_END phase=[SCOPE.GetLocalVariable('prb_test_phase_log').GetValue|0] month=[SCOPE.GetLocalVariable('prb_test_month_log').GetValue|0] countries=[SCOPE.GetLocalVariable('prb_test_num').GetValue|0]"
+}
